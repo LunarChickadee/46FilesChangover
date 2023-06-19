@@ -1,0 +1,2 @@
+global New, Num, Numb, enter, place, ID, CC, ED, credit, orders, ship, Flag, waswindow, vfindcurrent, vGlobeSerialNum, DedupOn, mailing_list_window
+fileglobal searchcust, findcust, getcust, searchname, findname, getname,findcurrent, vSerialNum
