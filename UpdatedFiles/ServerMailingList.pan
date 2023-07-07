@@ -44,10 +44,19 @@ case folderpath(dbinfo("folder","")) CONTAINS "ogs" or folderpath(dbinfo("folder
 defaultcase
     openfile "fcmadc"   ///UNCOMMENT THIS
     makesecret
+    if info("databasename") contains "45"
+    Openfile "44orders"
+    save
+    Openfile "45orders"
+    save
+    endif 
+
+    if info("databasename") contains "46"
     Openfile "45orders"
     save
     Openfile "46orders"
     save
+    endif
     openfile "ZipCodeList"
     save
     makesecret
@@ -71,23 +80,23 @@ window "members"
         endif
 lastrecord
 insertbelow
-«C#»=grabdata("46 mailing list", «C#»)
-Con=grabdata("46 mailing list", Con)
-Group=grabdata("46 mailing list", Group)
-MAd=grabdata("46 mailing list", MAd)
-City=grabdata("46 mailing list", City)
-St=grabdata("46 mailing list", St)
-Zip=grabdata("46 mailing list", Zip)
-SAd=grabdata("46 mailing list", SAd)
-Cit=grabdata("46 mailing list", Cit)
-Sta=grabdata("46 mailing list", Sta)
-Z=grabdata("46 mailing list", Z)
-phone=grabdata("46 mailing list", phone)
-email=grabdata("46 mailing list", email)
-inqcode=grabdata("46 mailing list", inqcode)
-«Mem?»=grabdata("46 mailing list", «Mem?»)
+«C#»=grabdata(thisFYear+" mailing list", «C#»)
+Con=grabdata(thisFYear+" mailing list", Con)
+Group=grabdata(thisFYear+" mailing list", Group)
+MAd=grabdata(thisFYear+" mailing list", MAd)
+City=grabdata(thisFYear+" mailing list", City)
+St=grabdata(thisFYear+" mailing list", St)
+Zip=grabdata(thisFYear+" mailing list", Zip)
+SAd=grabdata(thisFYear+" mailing list", SAd)
+Cit=grabdata(thisFYear+" mailing list", Cit)
+Sta=grabdata(thisFYear+" mailing list", Sta)
+Z=grabdata(thisFYear+" mailing list", Z)
+phone=grabdata(thisFYear+" mailing list", phone)
+email=grabdata(thisFYear+" mailing list", email)
+inqcode=grabdata(thisFYear+" mailing list", inqcode)
+«Mem?»=grabdata(thisFYear+" mailing list", «Mem?»)
 windowtoback "members"
-window "46 mailing list"
+window thisFYear+" mailing list"
 ___ ENDPROCEDURE .addmember ____________________________________________________
 
 ___ PROCEDURE NewRecord ________________________________________________________
@@ -312,7 +321,7 @@ supergettext findher, {caption="Enter Address.Zip" height=100 width=400 captionf
             findzip="0"+findzip
             endif
         findcity=extract(findher,".",1)
-        liveclairvoyance findzip,listzip,¶,"","46 mailing list",pattern(Zip,"#####"),"=",str(«C#»)+¬+rep(" ",7-length(str(«C#»)))+Con+rep(" ",max(20-length(Con),1))+¬+MAd+¬+City+¬+St+¬+pattern(Zip,"#####"),0,0,""
+        liveclairvoyance findzip,listzip,¶,"",thisFYear+" mailing list",pattern(Zip,"#####"),"=",str(«C#»)+¬+rep(" ",7-length(str(«C#»)))+Con+rep(" ",max(20-length(Con),1))+¬+MAd+¬+City+¬+St+¬+pattern(Zip,"#####"),0,0,""
         arraysubset listzip, listzip, ¶, import() contains findcity
             if listzip=""
             goto lastzip
@@ -384,7 +393,7 @@ tryname:
     firstname=extract(findname," ",1)
      lastname=extract(findname," ",2)
     if info("dialogtrigger") contains "Find"
-        liveclairvoyance lastname,findname1,¶,"","46 mailing list",Con,"contains",Con+¬+MAd+¬+City+¬+St+¬+pattern(Zip,"#####")+¬+phone,0,0,""
+        liveclairvoyance lastname,findname1,¶,"",thisFYear+" mailing list",Con,"contains",Con+¬+MAd+¬+City+¬+St+¬+pattern(Zip,"#####")+¬+phone,0,0,""
         message findname1
     endif
     
@@ -421,7 +430,7 @@ tryname:
      if info("dialogtrigger") contains "New"
         gettext "Which town?", newcity
         if newcity≠""
-            window "46 mailing list"
+            window thisFYear+" mailing list"
             find Z=val(findzip) and City contains newcity
             insertbelow
         else
@@ -1148,6 +1157,11 @@ added 8/22 by Lunar
 */
 
 
+global input_window, fromBranch
+    input_window = array(info("windows"),arraysearch(info("windows"),"*input*",1,¶),¶)
+    fromBranch = input_window
+
+
 window thisFYear+" mailing list"
 
 if S+T+Bf=0 and RedFlag=""
@@ -1238,7 +1252,6 @@ else
         endif
     endcase
 endif 
-
 ___ ENDPROCEDURE filler/¬ ______________________________________________________
 
 ___ PROCEDURE moved/` __________________________________________________________
@@ -1453,7 +1466,7 @@ ___ ENDPROCEDURE selectduplicates ______________________________________________
 ___ PROCEDURE checksize ________________________________________________________
 local addressblock
 addressblock=""
-addressblock=?(Group≠"",«Group»+¶+Con, Con)+¶+MAd+¶+City+¬+St+¬+pattern(Zip,"#####")
+addressblock=?(«Group»≠"",«Group»+¶+Con, Con)+¶+MAd+¶+City+¬+St+¬+pattern(Zip,"#####")
 select arraysize(addressblock,¶)>4
 ___ ENDPROCEDURE checksize _____________________________________________________
 
@@ -1779,21 +1792,21 @@ case appendChoice contains "member"
 window "members"
 lastrecord
 insertbelow
-«C#»=grabdata("46 mailing list", «C#»)
-Con=grabdata("46 mailing list", Con)
-Group=grabdata("46 mailing list", Group)
-MAd=grabdata("46 mailing list", MAd)
-City=grabdata("46 mailing list", City)
-St=grabdata("46 mailing list", St)
-Zip=grabdata("46 mailing list", Zip)
-SAd=grabdata("46 mailing list", SAd)
-Cit=grabdata("46 mailing list", Cit)
-Sta=grabdata("46 mailing list", Sta)
-Z=grabdata("46 mailing list", Z)
-phone=grabdata("46 mailing list", phone)
-email=grabdata("46 mailing list", email)
-inqcode=grabdata("46 mailing list", inqcode)
-«Mem?»=grabdata("46 mailing list", «Mem?»)
+«C#»=grabdata(thisFYear+" mailing list", «C#»)
+Con=grabdata(thisFYear+" mailing list", Con)
+Group=grabdata(thisFYear+" mailing list", Group)
+MAd=grabdata(thisFYear+" mailing list", MAd)
+City=grabdata(thisFYear+" mailing list", City)
+St=grabdata(thisFYear+" mailing list", St)
+Zip=grabdata(thisFYear+" mailing list", Zip)
+SAd=grabdata(thisFYear+" mailing list", SAd)
+Cit=grabdata(thisFYear+" mailing list", Cit)
+Sta=grabdata(thisFYear+" mailing list", Sta)
+Z=grabdata(thisFYear+" mailing list", Z)
+phone=grabdata(thisFYear+" mailing list", phone)
+email=grabdata(thisFYear+" mailing list", email)
+inqcode=grabdata(thisFYear+" mailing list", inqcode)
+«Mem?»=grabdata(thisFYear+" mailing list", «Mem?»)
 windowtoback "members"
 window thisFYear+" mailing list"
 
@@ -1840,7 +1853,7 @@ supergettext findher, {caption="Enter Address.Zip" height=100 width=400 captionf
             findzip="0"+findzip
             endif
         findcity=extract(findher,".",1)
-        liveclairvoyance findzip,listzip,¶,"","46 mailing list",pattern(Zip,"#####"),"=",str(«C#»)+¬+rep(" ",7-length(str(«C#»)))+Con+rep(" ",max(20-length(Con),1))+¬+MAd+¬+City+¬+St+¬+pattern(Zip,"#####"),0,0,""
+        liveclairvoyance findzip,listzip,¶,"",thisFYear+" mailing list",pattern(Zip,"#####"),"=",str(«C#»)+¬+rep(" ",7-length(str(«C#»)))+Con+rep(" ",max(20-length(Con),1))+¬+MAd+¬+City+¬+St+¬+pattern(Zip,"#####"),0,0,""
         arraysubset listzip, listzip, ¶, import() contains findcity
             if listzip=""
             goto lastzip
@@ -1912,7 +1925,7 @@ tryname:
     firstname=extract(findname," ",1)
      lastname=extract(findname," ",2)
     if info("dialogtrigger") contains "Find"
-        liveclairvoyance lastname,findname1,¶,"","46 mailing list",Con,"contains",Con+¬+MAd+¬+City+¬+St+¬+pattern(Zip,"#####")+¬+phone,0,0,""
+        liveclairvoyance lastname,findname1,¶,"",thisFYear+" mailing list",Con,"contains",Con+¬+MAd+¬+City+¬+St+¬+pattern(Zip,"#####")+¬+phone,0,0,""
         message findname1
     endif
     
@@ -1949,7 +1962,7 @@ tryname:
      if info("dialogtrigger") contains "New"
         gettext "Which town?", newcity
         if newcity≠""
-            window "46 mailing list"
+            window thisFYear+" mailing list"
             find Z=val(findzip) and City contains newcity
             insertbelow
         else
@@ -1980,6 +1993,11 @@ ___ PROCEDURE numberNeeded _____________________________________________________
 if «C#»≠0 
     goto End
 endif
+
+
+global input_window, fromBranch
+    input_window = array(info("windows"),arraysearch(info("windows"),"*input*",1,¶),¶)
+    fromBranch = input_window
 
 //gives them an First Year and Branch of Order code
     case fromBranch contains ";"
@@ -2094,6 +2112,25 @@ ___ PROCEDURE .AutomaticFY _____________________________________________________
 global dateHold, dateMath, intYear, 
 thisFYear,lastFYear,nextFYear,intMonth,fileDate
 
+// set this only on the newest mailing list
+// give people a copy of this but with thisFYear changed to LastFYear
+if folderpath(folder("")) contains "46"
+thisFYear = "46"
+lastFYear = "45"
+nextFYear = "47"
+    endif
+
+if folderpath(folder("")) contains "45"
+thisFYear = "45"
+lastFYear = "44"
+nextFYear = "46"
+    endif
+
+
+
+//______this does the FY automatically, but has issues if people want to open multiple instances
+
+/*
 fileDate=val(striptonum(info("databasename")))
 nextFYear=""
 thisFYear=""
@@ -2128,54 +2165,9 @@ if fileDate ≤ val(lastFYear) and fileDate > 0
     lastFYear=str(fileDate-1)
 endif
 
-//tallmessage str(nextFYear)+¬+str(thisFYear)+¬+str(lastFYear)
-
-
-/*
-
-///////~~~~~~~
-Programmer Notes
-~~~~~~~~~//////////
-The danger of this procedure is that come July 1st of the year, it will automatically set
-to open the newest files of a non-numbered Panorama file. And if those don't exist, you're 
-gonna see errors. Also, a non numbered Panorama file that needs to call older files shouldn't
-use this macro
-
-
-
-To use these variables please note the following Panorama syntax rules:
-
-
-filenames using variables:
-    can just concatenate as a string
-    
-    ex:
-        
-    openfile str(variable)+"filename" 
-
-
-field calls using variables:
-    best to be only one variable and nothing else
-    must be surrounded by ( )
-    
-    ex:
-    
-    field (VariableFieldName)
-    
-do your math and/or concatenation into the variable before calling it
-    VariableFieldName=str(variable)+"fieldname"
- 
-field (str(variable)+"fieldname") will work but can cause errors
-    
-for assignments to that variable'd field 
-    use «» for "current field/current cell" 
-    
-    ex: 
-   
-    «» = "10"
-  
-    
 */
+
+
 ___ ENDPROCEDURE .AutomaticFY __________________________________________________
 
 ___ PROCEDURE .SetDedupCounter _________________________________________________

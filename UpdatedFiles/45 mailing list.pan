@@ -44,6 +44,14 @@ case folderpath(dbinfo("folder","")) CONTAINS "ogs" or folderpath(dbinfo("folder
 defaultcase
     openfile "fcmadc"   ///UNCOMMENT THIS
     makesecret
+    if info("databasename") contains "45"
+    Openfile "44orders"
+    save
+    Openfile "45orders"
+    save
+    endif 
+
+    if info("databasename") contains "46"
     Openfile "45orders"
     save
     Openfile "46orders"
@@ -674,13 +682,6 @@ ___ PROCEDURE enter/e __________________________________________________________
 //gets num from record found on mailing list
 Num=«C#»
 
-global input_window, fromBranch
-    input_window = array(info("windows"),arraysearch(info("windows"),"*input*",1,¶),¶)
-    fromBranch = input_window
-    
-
-
-
 //___missing number?__//
 If Num=0
     call "numberNeeded"
@@ -692,10 +693,6 @@ endif
 window (thisFYear+"orders")
     «C#»=Num
     «C#Text»=str(Num)
-
-window input_window
-
-
 //originally checked if it was an internet order and had an empty name, then stopped
 
     //call ".IsInternetOrder" //not written yet
@@ -1151,6 +1148,8 @@ added 8/22 by Lunar
 window thisFYear+" mailing list"
 
 if S+T+Bf=0 and RedFlag=""
+    yesno "- Customer has no catalogs requested"+¶+"- Customer has no RedFlag(s)"+¶+¶+"Autofill catalog requests by Zip/Order?"
+    if clipboard()="Yes"
         Case Zip < 19000  And Zip>1000
             S=1
             «M?»=?(«M?» notcontains "X","X"+«M?»,«M?»)
@@ -1177,6 +1176,7 @@ if S+T+Bf=0 and RedFlag=""
             Bf=?(fromBranch contains "OGS",1,0)
             «M?»=?(«M?» contains "Z",replace(«M?»,"Z",""),«M?»)
         endcase     
+    endif 
 else 
     case RedFlag≠""
         message "Customer has a RedFlag."+¶+"Catalog requests will be set to zero"
@@ -1215,13 +1215,13 @@ else
                 if S≥1 and «M?» notcontains "X"
                     «M?»="X"+«M?»
                 else 
-                    if S=0
-                    «M?»=?(«M?» contains "X",replace(«M?»,"X",""),«M?»)
-                    endif
+                    ;if S=0
+                    ;«M?»=?(«M?» contains "X",replace(«M?»,"X",""),«M?»)
+                    ;endif
                 endif
 
                 if T≥1 and «M?» notcontains "W"
-                    «M?»="W"+«M?»
+                    ;«M?»="W"+«M?»
                 else 
                     if T=0
                     «M?»=?(«M?» contains "W",replace(«M?»,"W",""),«M?»)
@@ -2176,6 +2176,10 @@ for assignments to that variable'd field
   
     
 */
+
+thisFYear="45"
+lastFYear="44"
+nextFYear="46"
 ___ ENDPROCEDURE .AutomaticFY __________________________________________________
 
 ___ PROCEDURE .SetDedupCounter _________________________________________________

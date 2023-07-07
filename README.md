@@ -1,5 +1,5 @@
 Update day: 
-Friday Evening
+Thursday Night
 
 all files go to Bria's computer as well as getting updated on the server
 
